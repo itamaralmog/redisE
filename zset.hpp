@@ -3,7 +3,6 @@
 #include "avl.hpp"
 #include "hashtable.hpp"
 
-
 struct ZSet {
     AVLNode *tree = NULL;
     HMap hmap;
