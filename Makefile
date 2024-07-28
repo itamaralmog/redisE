@@ -1,14 +1,19 @@
-make: client server
+CXX = g++
+CXXFLAGS = -Wall -Wextra -O2 -g
+
+# Sources and targets
+SRCS = server.cpp hashtable.cpp avl.cpp zset.cpp heap.cpp  # Add heap.cpp if it contains heap_update implementation
+OBJS = $(SRCS:.cpp=.o)
 
 # Targets and their dependencies
-client: client.cpp common.hpp
-	$(CXX) $(CXXFLAGS) client.cpp -o client
+all: server test
 
-server: server.cpp hashtable.cpp hashtable.hpp list.hpp common.hpp avl.hpp avl.cpp zset.cpp zset.hpp
-	$(CXX) $(CXXFLAGS) server.cpp hashtable.cpp avl.cpp zset.cpp -o server
+server: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
-test: test_offset.cpp avl.hpp
-	$(CXX) $(CXXFLAGS) test_offset.cpp -o test
+test: test_heap.cpp heap.hpp heap.cpp
+	$(CXX) $(CXXFLAGS) test_heap.cpp -o test
 
 clean:
-	rm -rf server client test
+	rm -rf server $(OBJS) test
+
