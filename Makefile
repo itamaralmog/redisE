@@ -1,10 +1,14 @@
-make:
-	g++ -Wall -Wextra -O2 -g client.cpp -o client
-	g++ -Wall -Wextra -O2 -g server.cpp hashtable.cpp hashtable.hpp -o server
+make: client server
 
-tree:
-	g++ -Wall -Wextra -O2 -g avl.cpp test_avl.cpp -o testavl
+# Targets and their dependencies
+client: client.cpp common.hpp
+	$(CXX) $(CXXFLAGS) client.cpp -o client
+
+server: server.cpp hashtable.cpp hashtable.hpp common.hpp avl.hpp avl.cpp zset.cpp zset.hpp
+	$(CXX) $(CXXFLAGS) server.cpp hashtable.cpp avl.cpp zset.cpp -o server
+
+test: test_offset.cpp avl.hpp
+	$(CXX) $(CXXFLAGS) test_offset.cpp -o test
 
 clean:
-	rm -rf server client testavl
-
+	rm -rf server client test
